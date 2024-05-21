@@ -11,10 +11,18 @@
 </template>
 
 <script lang="ts"  setup>
-import { computed, ref } from 'vue'
+import { defineProps, computed, ref } from 'vue'
 
-const contador = ref(2)
+const props = defineProps<{ value: number }>()
 
+// ===============================
+// DATA
+// ===============================
+const contador = ref(props.value)
+
+// ===============================
+// METODOS
+// ===============================
 const squareCounter = computed(() => {
     return contador.value * contador.value
 })
