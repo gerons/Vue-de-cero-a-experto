@@ -4,27 +4,25 @@
         <h3>Square: {{ squareCounter  }}</h3>
 
         <div>
-            <button @click="contador++">+1</button>
-            <button @click="contador--">-1</button>
+            <button class="btn" @click="contador++">+1</button>
+            <button class="btn" @click="contador--">-1</button>
         </div>
     </div>
 </template>
 
-<script lang="ts"  setup>
-import { defineProps, computed, ref } from 'vue'
+<script lang="ts" setup>
+import { useCounter } from '../composables/useCounter'
 
-const props = defineProps<{ value: number }>()
+interface Props {
+    value: number
+}
+const props = defineProps<Props>()
 
-// ===============================
-// DATA
-// ===============================
-const contador = ref(props.value)
-
-// ===============================
-// METODOS
-// ===============================
-const squareCounter = computed(() => {
-    return contador.value * contador.value
-})
-
+const { contador, squareCounter } = useCounter(props.value)
 </script>
+
+<style scoped>
+.btn {
+    @apply px-5 py-1 bg-blue-500 rounded hover:bg-blue-700 mr-2 
+}
+</style>
