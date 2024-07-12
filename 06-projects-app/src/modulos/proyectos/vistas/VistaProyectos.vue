@@ -8,14 +8,18 @@
                     <th>Proyeto</th>
                     <th>Tareas</th>
                     <th>Avance</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
-                <tr class="hover">
-                    <th>2</th>
-                    <td>Hart Hagerty</td>
-                    <td>Desktop Support Technician</td>
-                    <td>Purple</td>
+                <tr v-for="(proyecto, index) in proyectosST.proyectosAvance" :key="proyecto.id" class="hover">
+                    <th>{{ index +1}}</th>
+                    <td>{{ proyecto.nombre }}</td>
+                    <td>{{  proyecto.totTareas }}</td>
+                    <td>
+                        <progress class="progress progress-primary w-56" :value="proyecto.avance" max="100"></progress>
+                    </td>
+                    <td class="text-right">{{ proyecto.avance }}%</td>
                 </tr>
             </tbody>
         </table>
@@ -46,7 +50,7 @@
             titulo="Registrar proyecto"
             subtitulo="Ingrese los datos del proyecto"
             @close="modalOpen=false"
-            @value="registrar"
+            @value="proyectosST.registrar"
         />
 
         <fab-button @click="modalOpen=true">
@@ -66,7 +70,9 @@ import IconoAgregar from '@/modulos/comun/iconos/IconoAgregar.vue'
 import IconoMas from '@/modulos/comun/iconos/IconoMas.vue'
 import ProyectoFrm from '@/modulos/comun/componentes/ProyectoFrm.vue'
 import CustomModal from '@/modulos/comun/componentes/CustomModal.vue'
+import { useProyectosStore } from '../store/projects.store'
 
+const proyectosST = useProyectosStore()
 
 // ===============================
 // DATA
@@ -78,6 +84,6 @@ const customModalOpen = ref(false)
 // METODOS
 // ===============================
 const registrar = (proyecto: string) => {
-    console.log({proyecto})
+    proyectosST.registrar(proyecto)
 }
 </script>

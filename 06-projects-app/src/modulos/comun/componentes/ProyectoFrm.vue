@@ -30,7 +30,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 
 interface Props {
     open: boolean
@@ -39,11 +39,18 @@ interface Props {
     subtitulo?: string
 }
 
-defineProps<Props>()
+const props = defineProps<Props>()
 const emit = defineEmits<{
     close: [void]
     value: [text: string]
 }>()
+
+
+watch(props, ({ open }) => {
+    if (open) {
+        inputRef.value?.focus()
+    }
+})
 
 // ===============================
 // DATA
@@ -71,4 +78,8 @@ const submitValue = () => {
 const cerrar = () => {
     emit('close')
 }
+
+// ===============================
+// CICLO DE VIDA
+// ===============================
 </script>

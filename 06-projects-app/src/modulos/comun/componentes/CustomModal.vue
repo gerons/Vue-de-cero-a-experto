@@ -1,26 +1,26 @@
 <template>
-    <dialog class="modal" :open="open">
-        <div class="modal-box">
-            <div class="border-b border-blue-500">
-                <!-- header -->
-                 <slot name="header" />
+    <div>
+        <dialog class="modal" :open="open">
+            <div class="modal-box">
+                <div class="border-b border-blue-500">
+                    <!-- header -->
+                     <slot name="header" />
+                </div>
+                <div class="my-5">
+                    <!-- body -->
+                     <slot name="body" />
+                </div>
+        
+                <div class="border-t border-t-blue-500 pt-2">
+                    <slot name="footer" />
+                </div>
             </div>
-
-            <div class="my-5">
-                <!-- body -->
-                 <slot name="body" />
-            </div>
-            
-            <div class="border-t border-t-blue-500 pt-2">
-                <slot name="footer" />
-            </div>
-        </div>
-    </dialog>
-
-    <div
-        v-if="open" 
-        class="modal-backdrop fixed top-0 left-0 z-10 bg-black opacity-50 w-screen h-screen"
-    ></div>
+        </dialog>
+        <div
+            v-if="open"
+            class="modal-backdrop fixed top-0 left-0 z-10 bg-black opacity-50 w-screen h-screen"
+        ></div>
+    </div>
 </template>
 
 <script lang="ts" setup>

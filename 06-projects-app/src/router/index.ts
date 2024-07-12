@@ -14,6 +14,12 @@ const router = createRouter({
           path: '/proyectos',
           name: 'proyectos',
           component: () => import('@/modulos/proyectos/vistas/VistaProyectos.vue')
+        },
+        {
+          path: '/proyecto/:id',
+          props: true,
+          name: 'proyecto',
+          component: () => import('@/modulos/proyectos/vistas/VistaProyecto.vue')
         }
       ]
     },
