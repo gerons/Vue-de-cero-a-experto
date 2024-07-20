@@ -4,7 +4,10 @@ const tesloApi = axios.create({
   baseURL: import.meta.env.VITE_TESLO_API_URL
 })
 
-// interseptors
+tesloApi.interceptors.request.use( config => {
+  
+  return config
+})
 
 export {
     tesloApi
