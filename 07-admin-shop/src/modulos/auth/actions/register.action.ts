@@ -23,8 +23,6 @@ export const registerAction = async (
             fullName, email, password
         })
 
-        console.log('data del registro', data)
-
         return {
             ok: true,
             user: data.user,
