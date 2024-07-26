@@ -58,9 +58,11 @@
 import { reactive, ref, watchEffect } from 'vue';
 import { useAuthStore } from '../stores/auth.store';
 import { useToast } from 'vue-toastification';
+import { useRouter } from 'vue-router';
 
 const authST = useAuthStore()
 const toast = useToast()
+const router = useRouter()
 
 // ===============================
 // DATA
@@ -106,6 +108,8 @@ const onLogin = async() => {
     } else {
       localStorage.removeItem('email')
     }
+
+    router.push('/')
 
     return
   }

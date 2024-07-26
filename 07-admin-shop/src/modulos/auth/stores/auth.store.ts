@@ -3,6 +3,7 @@ import { defineStore } from 'pinia'
 import { AuthStatus, type User } from '../interfaces'
 import { loginAction, registerAction } from '../actions'
 import { useLocalStorage } from '@vueuse/core'
+import { checkAuthAction } from '../actions/check-auth.action';
 
 export const useAuthStore = defineStore('auth', () => {
   // ===============================
@@ -55,6 +56,8 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   const logout = () => {
+    localStorage.removeItem('token')
+
     authStatus.value = AuthStatus.UnAuthenticated
     user.value = undefined
     token.value = ''
@@ -62,9 +65,24 @@ export const useAuthStore = defineStore('auth', () => {
     return false
   }
 
-  // ===============================
-  // COMPUTADOS
-  // ===============================
+  const checkAuthStatus = async(): Promise<boolean> => {
+    try {
+      const statusResp = await checkAuthAction()
+
+      if (!statusResp.ok) {
+        logout()
+        return false
+      }
+
+      authStatus.value = AuthStatus.Authenticated
+      user.value = statusResp.user
+      token.value = statusResp.token
+      return true
+    } catch (error) {
+      logout()
+      return false
+    }
+  }
 
   return {
     // estados
@@ -74,9 +92,9 @@ export const useAuthStore = defineStore('auth', () => {
     // getters (computados)
     isCheking: computed(() => authStatus.value === AuthStatus.Cheking),
     isAuthenticated: computed(() => authStatus.value === AuthStatus.Authenticated),
-    // TODO: getter para saber si es admin  no
+    isAdmin: computed(() => user.value?.roles.includes('admin') ?? false),
     userName: computed(() => user.value?.fullName),
     // actions (metodos)
-    login, register
+    login, logout, register, checkAuthStatus
   }
 })

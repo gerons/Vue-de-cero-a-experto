@@ -60,6 +60,7 @@
 import { reactive, ref } from 'vue'
 import { useAuthStore } from '../stores/auth.store';
 import { useToast } from 'vue-toastification';
+import router from '@/router';
 
 const authST = useAuthStore()
 const toast = useToast()

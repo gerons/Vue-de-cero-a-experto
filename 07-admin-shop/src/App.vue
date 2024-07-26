@@ -7,4 +7,26 @@
 
 <script lang="ts" setup>
 import { VueQueryDevtools } from '@tanstack/vue-query-devtools'
+import { useAuthStore } from './modulos/auth/stores/auth.store';
+import { AuthStatus } from './modulos/auth/interfaces';
+import { useRoute, useRouter } from 'vue-router';
+
+const authST = useAuthStore()
+const router = useRouter()
+const route = useRoute()
+
+authST.$subscribe( (_, state) => {
+  if (state.authStatus === AuthStatus.Cheking) {
+    authST.checkAuthStatus()
+    return
+  }
+
+  if ( route.path.includes('/auth') && state.authStatus === AuthStatus.Authenticated) {
+    router.replace({ name: 'home' })
+    return
+  }
+  
+}, {
+  immediate: true
+})
 </script>
