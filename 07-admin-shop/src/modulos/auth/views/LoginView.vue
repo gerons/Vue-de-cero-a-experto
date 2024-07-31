@@ -99,16 +99,16 @@ const onLogin = async() => {
     toast.warning('Contraseña muy corta')
     return passwordInputRef.value?.focus()
   }
+
+  if (myForm.rememberMe) {
+    localStorage.setItem('email', myForm.email);
+  } else {
+    localStorage.removeItem('email');
+  }
   
   const ok = await authST.login(myForm.email, myForm.password)
 
   if (ok) {
-    if (myForm.rememberMe) {
-      localStorage.setItem('email', myForm.email)
-    } else {
-      localStorage.removeItem('email')
-    }
-
     router.push('/')
 
     return
