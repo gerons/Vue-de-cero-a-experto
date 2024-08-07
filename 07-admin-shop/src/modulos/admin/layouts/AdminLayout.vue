@@ -75,14 +75,15 @@
                     </div>
                 </button>
                 <div class="flex flex-col flex-grow p-4 overflow-auto">
-                    <a class="flex items-center flex-shrink-0 h-10 px-2 text-sm font-medium rounded hover:bg-gray-300"
-                        href="#">
-                        <span class="leading-none">Item 1</span>
-                    </a>
-                    <a class="flex items-center flex-shrink-0 h-10 px-2 text-sm font-medium rounded hover:bg-gray-300"
-                        href="#">
-                        <span class="leading-none">Item 2</span>
-                    </a>
+                    <RouterLink class="flex items-center flex-shrink-0 h-10 px-2 text-sm font-medium rounded hover:bg-gray-300"
+                        to="/admin"
+                    >
+                        <span class="leading-none">Dashboard</span>
+                    </RouterLink>
+                    <RouterLink class="flex items-center flex-shrink-0 h-10 px-2 text-sm font-medium rounded hover:bg-gray-300"
+                        to="/admin/products">
+                        <span class="leading-none">Productos</span>
+                    </RouterLink>
                     <a class="flex items-center flex-shrink-0 h-10 px-2 text-sm font-medium rounded hover:bg-gray-300"
                         href="#">
                         <span class="leading-none">Item 3</span>
@@ -99,20 +100,20 @@
                         href="#">
                         <span class="leading-none">Item 6</span>
                     </a>
-                    <a class="flex items-center flex-shrink-0 h-10 px-3 mt-auto text-sm font-medium bg-gray-200 rounded hover:bg-gray-300"
+                    <a class="flex items-center flex-shrink-0 h-10 px-3 mt-auto text-sm font-medium bg-blue-500 rounded hover:bg-blue-700 text-white"
                         href="#">
                         <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                         </svg>
-                        <span class="ml-2 leading-none">New Item</span>
+                        <span class="ml-2 leading-none">Nuevo producto</span>
                     </a>
                 </div>
             </div>
             <div class="flex flex-col flex-grow">
                 <div class="flex items-center flex-shrink-0 h-16 px-8 border-b border-gray-300">
-                    <h1 class="text-lg font-medium">Page Title</h1>
+                    <h1 class="text-lg font-medium">{{ authStore.userName }}</h1>
                     <button
                         class="flex items-center justify-center h-10 px-4 ml-auto text-sm font-medium rounded hover:bg-gray-300">
                         Action 1
@@ -163,4 +164,8 @@
 </template>
 
 <script lang="ts" setup>
+import { useAuthStore } from '@/modulos/auth/stores/auth.store';
+import { RouterLink } from 'vue-router';
+
+const authStore = useAuthStore()
 </script>
