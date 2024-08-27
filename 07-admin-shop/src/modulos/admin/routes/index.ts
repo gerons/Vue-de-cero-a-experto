@@ -22,6 +22,7 @@ export const adminRoutes: RouteRecordRaw = {
         {
             path: 'products/:productId',
             name: 'admin-product',
+            props: true,
             component: () => import('@/modulos/admin/views/ProductView.vue')
         }
     ]
