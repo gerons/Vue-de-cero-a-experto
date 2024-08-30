@@ -1,4 +1,4 @@
-import { defineComponent, watch, watchEffect } from "vue"
+import { defineComponent, watch, watchEffect, ref } from "vue"
 import { useMutation, useQuery } from "@tanstack/vue-query"
 import { useFieldArray, useForm } from 'vee-validate'
 import * as yup from 'yup'
@@ -42,6 +42,7 @@ export default defineComponent({
 
         const { fields: images } = useFieldArray<string>('images')
         const { fields: sizes, remove: removeSize, push: pushSize } = useFieldArray<string>('sizes')
+        const imageFiles = ref<File[]>([])
 
         const {
           data: product,
@@ -91,6 +92,8 @@ export default defineComponent({
             resetForm({
                 values: updatedProduct.value
             })
+
+            imageFiles.value = []
         })
 
         watch(() => props.productId, () => {
@@ -111,10 +114,26 @@ export default defineComponent({
             }
         }
 
+        const onFileChanges = (event: Event) => {
+            const fileInput = event.target as HTMLInputElement
+            const fileList = fileInput.files
+
+            if (!fileList) return
+            if (fileList.length === 0) return
+
+            for (const imageFile of fileList) {
+                imageFiles.value.push(imageFile)
+            }
+        }
+
         const onSubmit = handleSubmit(async(values) => {
             // const product = await createUpdateProductAction(values)
+            const formValues = {
+                ...values,
+                images: [ ...values.images, ...imageFiles.value ]
+            }
 
-            mutate(values)
+            mutate(formValues)
         })
 
         // ===============================
@@ -126,14 +145,17 @@ export default defineComponent({
             title, titleAttrs, slug, slugAttrs, description, descriptionAttrs,
             price, priceAttrs, stock, stockAttrs, gender, genderAttrs,
 
-            images, sizes,
+            images, imageFiles, sizes,
             isPending,
             // Getters
             allSizes: ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
             // Actions
-            toggleSize, onSubmit,
+            toggleSize, onFileChanges, onSubmit,
             hasSize: (size: string) => {
                 const currentSizes = sizes.value.map(s => s.value)
+            },
+            temporalImageUrl: (imageFile: File) => {
+                return URL.createObjectURL(imageFile)
             }
         }
     }
